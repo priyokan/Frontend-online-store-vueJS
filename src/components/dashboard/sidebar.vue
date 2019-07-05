@@ -2,8 +2,8 @@
     <div>        
         <md-list>
           <md-list-item>
-            <md-icon>move_to_inbox</md-icon>
-            <span class="md-list-item-text">Inbox</span>
+            <md-icon>home</md-icon>
+            <span class="md-list-item-text">Home</span>
           </md-list-item>
 
           <md-list-item>

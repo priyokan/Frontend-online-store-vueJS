@@ -1,7 +1,7 @@
 <template>
   <div id="dashboard" class="page-container">
     <md-app>
-      <md-app-toolbar class="md-primary" style="background-color:#2c3e50" md-elevation="0">
+      <md-app-toolbar class="md-primary" style="position:fixed;background-color:#2c3e50" md-elevation="0">
         <md-button class="md-icon-button" @click="toggleMenu" v-if="!menuVisible">
           <md-icon>menu</md-icon>
         </md-button>
@@ -10,7 +10,7 @@
 
       <md-app-drawer class="md-elevation-3" :md-active.sync="menuVisible" md-persistent="mini">
         <md-toolbar class="md-transparent navigasi " md-elevation="0">
-          <h2>App Store</h2>
+          <h2>Mita D'brownis</h2>
 
           <div class="md-toolbar-section-end" >
             <md-button class="md-icon-button md-dense" @click="toggleMenu">
@@ -23,8 +23,11 @@
 
         <Sidebar/>
       </md-app-drawer>
-
-      <md-app-content>
+      <md-app-content style="position:absolute;
+                        padding-top:80px; 
+                        overflow:auto"
+                        class="md-scrollbr">
+        <chart></chart>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum magnam, similique, quo recusandae placeat dicta asperiores modi sint ea.
       </md-app-content>
     </md-app>
@@ -34,11 +37,13 @@
 <script>
 import Navbar from './navbar'
 import Sidebar from './sidebar'
-  export default {
+import chart from './home/chart'
+  export default {  
     name: 'PersistentMini',
     components:{
         Navbar,
         Sidebar,
+        chart,
     },
     data: () => ({
       menuVisible: false
@@ -47,7 +52,8 @@ import Sidebar from './sidebar'
       toggleMenu () {
         this.menuVisible = !this.menuVisible
       }
-    }
+    },
+
   }
 </script>
 

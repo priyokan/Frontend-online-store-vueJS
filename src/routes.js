@@ -1,5 +1,5 @@
-import loginForm from './components/login/main.vue'
-import dashboard from './components/dashboard/main.vue'
+import loginForm from './components/login/index.login.vue'
+import dashboard from './components/dashboard/index.dashboard.vue'
 
 export function Routes(){
     return [

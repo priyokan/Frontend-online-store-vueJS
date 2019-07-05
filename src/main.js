@@ -6,6 +6,7 @@ import 'vue-material/dist/theme/default.css'
 import VueRouter from 'vue-router'
 import {Routes} from './routes'
 import Vuelidate from 'vuelidate'
+import 'chart.js'
 
 Vue.use(Vuelidate)
 Vue.use(VueRouter)
