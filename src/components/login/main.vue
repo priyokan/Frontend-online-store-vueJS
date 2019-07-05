@@ -77,6 +77,7 @@
         this.form.password = null
       },
       success() {
+          this.$router.push('dashboard')
           this.clearForm()
       },
       validateUser () {
