@@ -20,15 +20,15 @@
             </md-button>
           </div>
         </md-toolbar>
-
         <Sidebar/>
       </md-app-drawer>
       <md-app-content style="position:absolute;
-                        padding-top:80px; 
+                        padding-top:80px;
+                        right:0px;
+                        left:80px; 
                         overflow:auto"
-                        class="md-scrollbr">
-        <chart></chart>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum magnam, similique, quo recusandae placeat dicta asperiores modi sint ea.
+                        class="md-scrollbar">     
+        <router-view></router-view>
       </md-app-content>
     </md-app>
   </div>
@@ -37,13 +37,11 @@
 <script>
 import Navbar from './navbar'
 import Sidebar from './sidebar'
-import chart from './home/chart'
   export default {  
     name: 'PersistentMini',
     components:{
         Navbar,
         Sidebar,
-        chart,
     },
     data: () => ({
       menuVisible: false

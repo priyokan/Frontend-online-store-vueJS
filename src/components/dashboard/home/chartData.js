@@ -16,16 +16,6 @@ export const planetChartData = {
             'rgba(54,73,93,.5)',
             'rgba(54,73,93,.5)'
           ],
-          borderColor: [
-            '#F26083',
-            '#cf63e8',
-            '#36495d',
-            '#36495d',
-            '#36495d',
-            '#36495d',
-            '#36495d',
-            '#36495d',
-          ],
           borderWidth: 0
         },
       ]
