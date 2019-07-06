@@ -30,14 +30,30 @@
                           width:100%;
                           ">
                 <tr>
-                    <td width=55% style="min-height:700px">
-                        <Progres></Progres>
-                        <Progres></Progres>
-                        <Progres></Progres>
+                    <td width=55%>
+                        <h5 style="position:absolute;top:0px;left:30px;text-align:left">Pesanan dalam proses:</h5>
+                        <Progres 
+                            proses='30%'
+                            finish='10%'
+                            color='#5fefe3'/> 
+                        <Progres
+                            proses='80%'
+                            finish='55%'
+                            color='#ffe102'/>
+                        <Progres
+                            proses='60%'
+                            finish='55%'
+                            color='#e100ed'/>
                     </td>
                     <td>
+                         <h5 style="position:relative;left:30px;text-align:left">Diagram pesanan:</h5>
                         <Chart ></Chart>
                     </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        ajsajs
+                    </td>                    
                 </tr>
             </md-table>
         </div>
@@ -62,8 +78,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-tr,td{
+table,tr,td{
     border:1px solid #d0d0d0;
+    padding: 0%;
     }
 .carts{
     margin: 10px
