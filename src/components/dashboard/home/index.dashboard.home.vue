@@ -33,14 +33,17 @@
                     <td width=55%>
                         <h5 style="position:absolute;top:0px;left:30px;text-align:left">Pesanan dalam proses:</h5>
                         <Progres 
+                            title="Brownis"
                             proses='30%'
                             finish='10%'
                             color='#5fefe3'/> 
                         <Progres
+                            title="puding"
                             proses='80%'
                             finish='55%'
                             color='#ffe102'/>
                         <Progres
+                            title="cookie"
                             proses='60%'
                             finish='55%'
                             color='#e100ed'/>
