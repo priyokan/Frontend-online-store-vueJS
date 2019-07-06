@@ -28,10 +28,18 @@
                           left:0%;
                           right:0%;
                           width:100%;
-                          ">
-                <tr>
+                          overflow:auto"
+                          class="md-scrollbar">
+                <tr class="header" style="text-align:left;">
+                    <th>
+                        Pesanan dalam proses:
+                    </th>
+                    <th>
+                        Diagram pesanan:
+                    </th>
+                </tr>
+                <tr class="content">
                     <td width=55%>
-                        <h5 style="position:absolute;top:0px;left:30px;text-align:left">Pesanan dalam proses:</h5>
                         <Progres 
                             title="Brownis"
                             proses='30%'
@@ -48,12 +56,11 @@
                             finish='55%'
                             color='#e100ed'/>
                     </td>
-                    <td>
-                         <h5 style="position:relative;left:30px;text-align:left">Diagram pesanan:</h5>
+                    <td style="padding:10px">
                         <Chart ></Chart>
                     </td>
                 </tr>
-                <tr>
+                <tr class="content">
                     <td colspan="2">
                         ajsajs
                     </td>                    
@@ -81,12 +88,18 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-table,tr,td{
+table tr.content td{
     border:1px solid #d0d0d0;
+    border-top: none;
     padding: 0%;
     }
 .carts{
     margin: 10px
+}
+.header th{
+    border:1px  solid #d0d0d0;
+    border-bottom: none;
+    padding: 10px 30px;
 }
 </style>
 
