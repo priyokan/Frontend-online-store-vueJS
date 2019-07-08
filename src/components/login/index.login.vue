@@ -22,8 +22,8 @@
             <md-input type='password' v-model="form.password"></md-input>
             <span class="md-error" v-if="!$v.form.email.required">Password harus di isi</span>
           </md-field>
+            <span class="error_login" v-if="pesan">maaf, {{pesan}}</span>
         </md-card-content>
-
         <md-card-actions>
           <md-button type="submit" class="md-dense md-raised md-primary" style="margin:auto" >Masuk</md-button>
         </md-card-actions>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+  import Axios from 'axios'
   import { validationMixin } from 'vuelidate'
   import {
     required,
@@ -46,9 +47,10 @@
     mixins: [validationMixin],
     data: () => ({
       form: {
-        email: null,
-        password:null,
+        email: '',
+        password:'',
       },
+      pesan:''
     }),
     validations: {
       form: {
@@ -73,25 +75,50 @@
       },
       clearForm () {
         this.$v.$reset()
-        this.form.email = null
-        this.form.password = null
+        this.form.email = ''
+        this.form.password = ''
       },
       success() {
-          this.$router.push('dashboard')
+          this.$router.push('dashboard/home')
           this.clearForm()
+      },
+      login(){
+        let form = this.form
+        Axios
+        .post(localStorage.getItem('api_url')+'/user/login',form)
+        .then((result) => {
+          if(result.data.status=='sukses'){
+            localStorage.setItem('token',result.data.data.token)
+            console.log(result.data)
+            this.success()
+          }
+          this.pesan=result.data.message   
+          this.clearForm()      
+        }).catch((err) => {
+          
+        });
       },
       validateUser () {
         this.$v.$touch()
 
         if (!this.$v.$invalid) {
-          this.success()
+          this.login()
         }
       }
-    }
+    },
+    mounted() {
+    },
   }
 </script>
 
 <style lang="scss" scoped>
+    #login{
+      position: absolute;
+      top:0px;
+      bottom: 0px;
+      right: 0px;
+      left: 0px;
+    }
     #login .wallpaper{
         background-image: url('../../assets/img/darkwood02.jpg');
         position: absolute;
@@ -99,8 +126,17 @@
         width: 100%;
     }
     #login .md-card{
-        margin:100px auto;
-        width: 400px;
+        margin:50px auto;
+        width: 350px;
         padding: 20px;
+    }
+    .error_login{
+        color:rgb(175, 22, 22);
+        font-size: 10px;
+        text-shadow: 1px 1px 3px #4d030352;
+        background-color:rgba(200, 200, 200, 0.226);
+        padding: 2px 20px;
+        border: 1px solid rgba(116, 17, 17, 0.397);
+        border-radius: 2px;
     }
 </style>

@@ -60,11 +60,6 @@
                         <Chart ></Chart>
                     </td>
                 </tr>
-                <tr class="content">
-                    <td colspan="2">
-                        ajsajs
-                    </td>                    
-                </tr>
             </md-table>
         </div>
     </div>

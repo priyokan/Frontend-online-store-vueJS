@@ -51,6 +51,9 @@ import Sidebar from './sidebar'
         this.menuVisible = !this.menuVisible
       }
     },
+    mounted() {
+      console.log(localStorage)
+    },
 
   }
 </script>
@@ -62,7 +65,6 @@ import Sidebar from './sidebar'
         bottom: 0%;
         top: 0%;
     }
-
     .navigasi{
         background-image: url('../../assets/img/mixed-berry-tart.jpeg');
         background-size: cover;

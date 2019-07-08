@@ -8,7 +8,10 @@
 export default {
   name: 'app',
   components: {
-  }
+  },
+  mounted() {
+    localStorage.setItem('api_url','http://192.168.5.35:8000/api')
+  },
 }
 </script>
 

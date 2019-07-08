@@ -6,7 +6,7 @@
             <span class="md-list-item-text">Home</span>
           </md-list-item>
 
-          <md-list-item to="/dashboard/home">
+          <md-list-item to="/dashboard/manage/menu">
             <md-icon>list_alt</md-icon>
             <span class="md-list-item-text">Manage Menu</span>
           </md-list-item>
