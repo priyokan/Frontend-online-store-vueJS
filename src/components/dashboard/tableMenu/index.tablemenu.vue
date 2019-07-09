@@ -6,13 +6,13 @@
           <md-icon v-show="!action">add</md-icon>
           <md-icon v-show="action=='addForm'">close</md-icon>
         </md-button>
-        <md-button v-show="!action||action=='editForm'" class="md-fab md-mini" style="background-color:#25db3a;z-index:10"> 
+        <md-button v-show="!action||action=='editForm'" @click="showFormEdit" class="md-fab md-mini" style="background-color:#25db3a;z-index:10"> 
           <md-icon v-show="!action">save</md-icon>
           <md-icon v-show="action=='editForm'">close</md-icon>
         </md-button>
         <md-button v-show="!action||action=='deleteForm'" @click="showFormDelete" class="md-fab md-mini" style="z-index:10"> 
-          <md-icon v-show="!formAdd">delete_sweep</md-icon>
-          <md-icon v-show="formAdd">close</md-icon>
+          <md-icon v-show="!action">delete_sweep</md-icon>
+          <md-icon v-show="action=='deleteForm'">close</md-icon>
         </md-button>
         <div class="md-toolbar-section-start" >
         <router-view> </router-view>
@@ -90,14 +90,23 @@ import Axios from 'axios';
           this.$router.push('/dashboard/manage/menu')          
         }
       },
+      showFormEdit(){
+        if(!this.action){
+          this.headerClass.push('header-turun')
+          this.action="editForm"
+          this.$router.push('/dashboard/manage/menu/edit')
+        }else{
+          this.headerClass.pop()
+          this.action=null
+          this.$router.push('/dashboard/manage/menu')          
+        }
+      },
       showFormDelete(){
 
         if(!this.action){
-          this.headerClass.push('header-turun')
           this.action="deleteForm"
           this.$router.push('/dashboard/manage/menu/delete')
         }else{
-          this.headerClass.pop()
           this.action=null
           this.$router.push('/dashboard/manage/menu')          
         }

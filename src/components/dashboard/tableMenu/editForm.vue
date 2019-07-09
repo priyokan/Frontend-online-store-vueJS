@@ -1,80 +1,155 @@
 <template>
-  <div>
-    <md-table v-model="people" md-card @md-selected="onSelect">
-      <md-table-toolbar>
-        <h1 class="md-title">Selection Colors</h1>
-      </md-table-toolbar>
+  <div id='addMenu' style="position:absolute">
+    <form novalidate class="md-layout" @submit.prevent="validateUser">
+      <md-card class="md-layout-item md-size-50 md-small-size-100">
+        <md-card-header>
+          <div class="md-title">Edit Menu</div>
+        </md-card-header>
 
-      <md-table-row slot="md-table-row" slot-scope="{ item }" :class="getClass(item)" md-selectable="single">
-        <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
-        <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
-        <md-table-cell md-label="Email" md-sort-by="email">{{ item.email }}</md-table-cell>
-        <md-table-cell md-label="Gender" md-sort-by="gender">{{ item.gender }}</md-table-cell>
-        <md-table-cell md-label="Job Title" md-sort-by="title">{{ item.title }}</md-table-cell>
-      </md-table-row>
-    </md-table>
+        <md-card-content>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('namaMenu')">
+                <label for="namaMenu">Nama menu</label>
+                <md-input name="namaMenu" id="namaMenu" autocomplete="given-name" v-model="form.namaMenu" :disabled="sending" />
+                <span class="md-error" v-if="!$v.form.namaMenu.required">Nama Harus diisi</span>
+              </md-field>
+            </div>
 
-    <p>Selected:</p>
-    {{ selected }}
+            <div class="md-layout-item md-small-size-100" style="margin-top:10px" >
+                <md-field>
+                    <label>Deskripsi</label>
+                    <md-textarea v-model="form.deskripsi"></md-textarea>
+                </md-field>
+            </div>
+ 
+
+            <div class="md-layout-item md-small-size-100">
+                <md-field>
+                    <label>gambar</label>
+                    <md-file @change="imgSelector" accept="image/*" />
+                </md-field>
+            </div>
+          </div>
+        </md-card-content>
+
+        <md-progress-bar md-mode="indeterminate" v-if="sending" />
+
+        <md-card-actions>
+          <md-button type="submit" class="md-primary" :disabled="sending">Tamabh Menu</md-button>
+        </md-card-actions>
+      </md-card>
+    </form>
   </div>
 </template>
 
 <script>
+  import { validationMixin } from 'vuelidate'
+  import {required,} from 'vuelidate/lib/validators'
+  import Axios from 'axios'
+  import FormData from 'form-data'
+
   export default {
-    name: 'TableSingle',
+    name: 'FormValidation',
+    mixins: [validationMixin],
     data: () => ({
-      selected: {},
-      people: [
-        {
-          id: 1,
-          name: 'Shawna Dubbin',
-          email: 'sdubbin0@geocities.com',
-          gender: 'Male',
-          title: 'Assistant Media Planner'
-        },
-        {
-          id: 2,
-          name: 'Odette Demageard',
-          email: 'odemageard1@spotify.com',
-          gender: 'Female',
-          title: 'Account Coordinator'
-        },
-        {
-          id: 3,
-          name: 'Lonnie Izkovitz',
-          email: 'lizkovitz3@youtu.be',
-          gender: 'Female',
-          title: 'Operator'
-        },
-        {
-          id: 4,
-          name: 'Thatcher Stave',
-          email: 'tstave4@reference.com',
-          gender: 'Male',
-          title: 'Software Test Engineer III'
-        },
-        {
-          id: 5,
-          name: 'Clarinda Marieton',
-          email: 'cmarietonh@theatlantic.com',
-          gender: 'Female',
-          title: 'Paralegal'
-        }
-      ]
+      form: {
+        namaMenu: null,
+        deskripsi: null,
+        img:''
+      },
+      userSaved: false,
+      sending: false,
+      lastUser: null
     }),
+    validations: {
+      form: {
+        namaMenu: {
+          required,
+        },
+      }
+    },
     methods: {
-      getClass: ({ id }) => ({
-        'md-primary': id > 0,
-      }),
-      onSelect (item) {
-        this.selected = item
+      imgSelector(e){
+          let file = e.target.files[0]
+          this.form.img = file
+      },
+
+      getValidationClass (fieldName) {
+        const field = this.$v.form[fieldName]
+
+        if (field) {
+          return {
+            'md-invalid': field.$invalid && field.$dirty
+          }
+        }
+      },
+      clearForm () {
+        this.$v.$reset()
+        this.form.namaMenu = null
+        this.form.deskripsi = null
+      },
+      submit(){
+        const fd = new FormData()
+        fd.append('namaMenu',this.form.namaMenu)
+        fd.append('deskripsi',this.form.deskripsi)
+        fd.append('imgMenu',this.form.img)
+        const option = {
+            headers: {
+                    'x-device-id': 'stuff',
+                    'Content-Type': 'multipart/form-data',
+                    'token':localStorage.getItem('token')
+                    },
+            }
+            console.log(this.img)
+        Axios .post( localStorage.getItem("api_url")+"/admin/menu",fd,option)
+
+        .then((result) => {
+            console.log(result)
+            this.$router.push('/dashboard/manage/menu/0')
+        }).catch((err) => {
+            
+        });
+      },
+      saveUser () {
+        this.sending = true
+
+        // Instead of this timeout, here you can call your API
+        window.setTimeout(() => {
+          this.submit()
+          this.userSaved = true
+          this.sending = false
+          this.clearForm()          
+        }, 10)
+      },
+      validateUser () {
+        this.$v.$touch()
+
+        if (!this.$v.$invalid) {
+          this.saveUser()
+        }
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  .md-table + .md-table {
-    margin-top: 16px
+  .md-progress-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+  }
+  #addMenu{
+    position: relative;
+    top: 35px;
+    left: 15px;
+    height: 300px;
+  }
+  @keyframes showing{
+      0%{height: 0px}
+  }
+  *{
+    animation: showing;
   }
 </style>
