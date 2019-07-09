@@ -8,7 +8,7 @@
         </md-button>
         <div class="md-toolbar-section-start" >
         <router-view> </router-view>
-          <h1 class="md-title">Users</h1>
+          <h1 class="md-title">Menu</h1>
         </div>
 
         <md-field md-clearable class="md-toolbar-section-end">
