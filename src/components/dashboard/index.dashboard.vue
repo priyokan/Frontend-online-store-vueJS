@@ -52,7 +52,6 @@ import Sidebar from './sidebar'
       }
     },
     mounted() {
-      console.log(localStorage)
     },
 
   }

@@ -1,8 +1,13 @@
 <template>
   <div>
-    <md-table v-model="searched" md-sort="name" md-sort-order="asc" md-card md-fixed-header>
-      <md-table-toolbar>
-        <div class="md-toolbar-section-start">
+    <md-table v-model="searched" md-sort="name" md-sort-order="asc" md-card md-fixed-header >
+      <md-table-toolbar :class="headerClass" >
+        <md-button @click="showForm" class="md-fab" style="z-index:10"> 
+          <md-icon v-show="!formAdd">add</md-icon>
+          <md-icon v-show="formAdd">close</md-icon>
+        </md-button>
+        <div class="md-toolbar-section-start" >
+        <router-view> </router-view>
           <h1 class="md-title">Users</h1>
         </div>
 
@@ -17,14 +22,18 @@
         <md-button class="md-primary md-raised" @click="newUser">Create New User</md-button>
       </md-table-empty-state>
 
-      <md-table-row slot="md-table-row" slot-scope="{ item,index }">
-        <md-table-cell md-label="#" md-sort-by="id" md-numeric>{{ index }}</md-table-cell>
+      <md-table-row slot="md-table-row" slot-scope="{ item,index }" >
+        <md-table-cell md-label="#" md-numeric>{{ index }}</md-table-cell>
         <md-table-cell md-label="Nama" md-sort-by="namaMenu">{{ item.namaMenu }}</md-table-cell>
         <md-table-cell md-label="Deskripsi" md-sort-by="deskripsi">{{ item.deskripsi }}</md-table-cell>
-        <md-table-cell md-label="Gambar"><img :src="item.imgMenu" alt="" style="width:50px"></md-table-cell>
+        <md-table-cell md-label="Gambar"><img :src="item.imgMenu" alt="" style="width:50px"> </md-table-cell>
+        <md-table-cell></md-table-cell>
+       
       </md-table-row>
     </md-table>
+    
   </div>
+  
 </template>
 
 <script>
@@ -40,23 +49,39 @@
 
     return items
   }
-
+import Action from './action.table'
 import Axios from 'axios';
 
   export default {
     name: 'TableSearch',
+    components:{
+      Action,
+    },
     data: () => ({
       search: null,
       searched: [],
       menus: [
         
-      ]
+      ],
+      action:false,
+      formAdd:false,
+      headerClass:['normal-header']
     }),
     methods: {
       newUser () {
       },
       searchOnTable () {
         this.searched = searchByName(this.menus, this.search)
+      },
+      showForm(){
+        if(!this.formAdd){
+          this.headerClass.push('header-turun')
+          this.$router.push('/dashboard/manage/menu/add')
+        }else{
+          this.headerClass.pop()
+          this.$router.push('/dashboard/manage/menu')
+        }
+        this.formAdd=!this.formAdd
       }
     },
     created () {
@@ -74,7 +99,6 @@ import Axios from 'axios';
         result.data.forEach(el => {
           this.menus.push(el)
         });
-        console.log(this.menus)
       }).catch((err) => {
         
       });
@@ -83,7 +107,13 @@ import Axios from 'axios';
 </script>
 
 <style lang="scss" scoped>
+  tr{
+    text-align: left;
+  }
   .md-field {
     max-width: 300px;
+  } 
+  .header-turun{
+    margin-bottom: 370px;
   }
 </style>

@@ -127,7 +127,8 @@
     }
     #login .md-card{
         margin:50px auto;
-        width: 350px;
+        width: 400px;
+        height: 450px;
         padding: 20px;
     }
     .error_login{

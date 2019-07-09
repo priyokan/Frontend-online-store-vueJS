@@ -52,7 +52,7 @@ export default {
     justify-content: left;  
     top: -6px;
     height: 0pc;
-    animation: progress-bar 2s;
+    animation: progress-bar 1s;
   }
 .finish{
     border: 3px solid;
