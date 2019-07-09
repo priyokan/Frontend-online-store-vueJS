@@ -9,10 +9,10 @@
         <md-card-content>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('firstName')">
+              <md-field :class="getValidationClass('namaMenu')">
                 <label for="namaMenu">Nama menu</label>
                 <md-input name="namaMenu" id="namaMenu" autocomplete="given-name" v-model="form.namaMenu" :disabled="sending" />
-                <span class="md-error" v-if="!$v.form.firstName.required">Nama Harus diisi</span>
+                <span class="md-error" v-if="!$v.form.namaMenu.required">Nama Harus diisi</span>
               </md-field>
             </div>
 
@@ -27,7 +27,7 @@
             <div class="md-layout-item md-small-size-100">
                 <md-field>
                     <label>gambar</label>
-                    <md-file accept="image/*" />
+                    <md-file @change="imgSelector" accept="image/*" />
                 </md-field>
             </div>
           </div>
@@ -45,12 +45,9 @@
 
 <script>
   import { validationMixin } from 'vuelidate'
-  import {
-    required,
-    email,
-    minLength,
-    maxLength
-  } from 'vuelidate/lib/validators'
+  import {required,} from 'vuelidate/lib/validators'
+  import Axios from 'axios'
+  import FormData from 'form-data'
 
   export default {
     name: 'FormValidation',
@@ -59,6 +56,7 @@
       form: {
         namaMenu: null,
         deskripsi: null,
+        img:''
       },
       userSaved: false,
       sending: false,
@@ -66,13 +64,17 @@
     }),
     validations: {
       form: {
-        firstName: {
+        namaMenu: {
           required,
-          minLength: minLength(3)
         },
       }
     },
     methods: {
+      imgSelector(e){
+          let file = e.target.files[0]
+          this.form.img = file
+      },
+
       getValidationClass (fieldName) {
         const field = this.$v.form[fieldName]
 
@@ -84,22 +86,41 @@
       },
       clearForm () {
         this.$v.$reset()
-        this.form.firstName = null
-        this.form.lastName = null
-        this.form.age = null
-        this.form.gender = null
-        this.form.email = null
+        this.form.namaMenu = null
+        this.form.deskripsi = null
+      },
+      submit(){
+        const fd = new FormData()
+        fd.append('namaMenu',this.form.namaMenu)
+        fd.append('deskripsi',this.form.deskripsi)
+        fd.append('imgMenu',this.form.img)
+        const option = {
+            headers: {
+                    'x-device-id': 'stuff',
+                    'Content-Type': 'multipart/form-data',
+                    'token':localStorage.getItem('token')
+                    },
+            }
+            console.log(this.img)
+        Axios .post( localStorage.getItem("api_url")+"/admin/menu",fd,option)
+
+        .then((result) => {
+            console.log(result)
+            this.$router.push('/dashboard/manage/menu/0')
+        }).catch((err) => {
+            
+        });
       },
       saveUser () {
         this.sending = true
 
         // Instead of this timeout, here you can call your API
         window.setTimeout(() => {
-          this.lastUser = `${this.form.firstName} ${this.form.lastName}`
+          this.submit()
           this.userSaved = true
           this.sending = false
-          this.clearForm()
-        }, 1500)
+          this.clearForm()          
+        }, 10)
       },
       validateUser () {
         this.$v.$touch()
@@ -120,9 +141,9 @@
     left: 0;
   }
   #addMenu{
-    position: absolute;
-    top: 25px;
-    left: 25px;
+    position: relative;
+    top: 35px;
+    left: 15px;
     height: 300px;
   }
   @keyframes showing{

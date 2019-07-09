@@ -3,6 +3,7 @@ import dashboard from './components/dashboard/index.dashboard.vue'
 import dashboardHome from './components/dashboard/home/index.dashboard.home.vue'
 import tableMenu from './components/dashboard/tableMenu/index.tablemenu.vue'
 import addMenu from './components/dashboard/tableMenu/addMenu.vue'
+import deleteMenu from './components/dashboard/tableMenu/delete.vue'
 
 export function Routes(){
     return [
@@ -28,7 +29,13 @@ export function Routes(){
                     path:'/dashboard/manage/menu/add',
                     name:'addMenu',
                     component:addMenu
-                }]
+                },
+                {
+                    path:'/dashboard/manage/menu/delete',
+                    name:'deleteMenu',
+                    component:deleteMenu
+                }
+                ]
             }
         ]
         }
