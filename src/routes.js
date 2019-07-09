@@ -4,6 +4,7 @@ import dashboardHome from './components/dashboard/home/index.dashboard.home.vue'
 import tableMenu from './components/dashboard/tableMenu/index.tablemenu.vue'
 import addMenu from './components/dashboard/tableMenu/addMenu.vue'
 import deleteMenu from './components/dashboard/tableMenu/delete.vue'
+import editMenu from './components/dashboard/tableMenu/editForm.vue'
 
 export function Routes(){
     return [
@@ -34,7 +35,12 @@ export function Routes(){
                     path:'/dashboard/manage/menu/delete',
                     name:'deleteMenu',
                     component:deleteMenu
-                }
+                },
+                {
+                    path:'/dashboard/manage/menu/edit',
+                    name:'deleteMenu',
+                    component:editMenu
+                },
                 ]
             }
         ]
