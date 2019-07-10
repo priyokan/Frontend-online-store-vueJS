@@ -81,8 +81,6 @@ import Axios from 'axios';
       headerClass:['normal-header']
     }),
     methods: {
-      newUser () {
-      },
       searchOnTable () {
         this.searched = searchByName(this.menus, this.search)
       },

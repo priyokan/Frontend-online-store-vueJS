@@ -54,6 +54,7 @@
     mixins: [validationMixin],
     data: () => ({
       form: {
+        id:null,
         namaMenu: null,
         deskripsi: null,
         img:''
@@ -68,6 +69,16 @@
           required,
         },
       }
+    },
+    beforeMount() {
+        var getData = localStorage.getItem('selected')
+        getData = JSON.parse(getData)
+
+      this.form.id= getData._id
+      this.form.namaMenu=getData.namaMenu
+      this.form.deskripsi=getData.deskripsi
+      this.form.img=getData.img
+
     },
     methods: {
       imgSelector(e){
@@ -102,11 +113,13 @@
                     },
             }
             console.log(this.img)
-        Axios .post( localStorage.getItem("api_url")+"/admin/menu",fd,option)
+        Axios .put( localStorage.getItem("api_url")+"/admin/menu/"+this.form.id,fd,option)
 
         .then((result) => {
             console.log(result)
-            this.$router.push('/dashboard/manage/menu/0')
+            localStorage.setItem('updateTable',true)
+            localStorage.removeItem('selected')
+            this.$router.push('/dashboard/manage/menu')
         }).catch((err) => {
             
         });
@@ -114,7 +127,6 @@
       saveUser () {
         this.sending = true
 
-        // Instead of this timeout, here you can call your API
         window.setTimeout(() => {
           this.submit()
           this.userSaved = true
