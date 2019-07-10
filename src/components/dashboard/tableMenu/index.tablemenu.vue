@@ -91,10 +91,12 @@ import Axios from 'axios';
           this.headerClass.push('header-turun')
           this.tambah= !this.tambah
           this.$router.push('/dashboard/manage/menu/add')
+          this.action='addForm'
         }else{
           this.headerClass.pop()
           this.tambah= !this.tambah
           this.$router.push('/dashboard/manage/menu')          
+          this.action=null
         }
       },
       showFormEdit(){
@@ -142,18 +144,19 @@ import Axios from 'axios';
       }
     },
     updated() {
-      let updatingTbl = localStorage.getItem('updateTable')
-      this.selected = localStorage.getItem('selected')
-      if(!this.selected){
-        this.action = null
-      }       
+      let updatingTbl = localStorage.getItem('updateTable')      
+      if(localStorage.getItem('selected')=='undefined'||!localStorage.getItem('selected')){
+        this.selected=null
+      }
       if(updatingTbl){
         this.menus.length=0
         this.getApi()
+        this.action=null
         localStorage.removeItem('updateTable')
+        this.tambah=false
+        this.headerClass.pop()
       }
       if(this.headerClass>1){
-        this.headerClass.pop()
       }
     },
 
@@ -165,7 +168,6 @@ import Axios from 'axios';
       // setTimeout(() => {
       //   this.notFound=true
       // }, 1500);
-      console.log(this.selected)
 
     },
   }

@@ -37,7 +37,7 @@ export default {
             Axios .delete( localStorage.getItem("api_url")+"/admin/menu/"+this.Id,option)
             .then((result) => {
                 localStorage.setItem('updateTable',true)
-                localStorage.removeItem('selected')
+                localStorage.setItem('selected',false)
                 this.$router.replace('/dashboard/manage/menu/')
             }).catch((err) => {
                 
