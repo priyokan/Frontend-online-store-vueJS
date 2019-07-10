@@ -1,34 +1,34 @@
 <template>
   <div id='addMenu' style="position:absolute">
-    <form novalidate class="md-layout" @submit.prevent="validateUser">
-      <md-card class="md-layout-item md-size-50 md-small-size-100">
+    <form novalidate class="md-layout" @submit.prevent="validateUser" style="">
+      <md-card class="md-layout-item md-size-50 md-small-size-100" style="width: 1100px">
         <md-card-header>
           <div class="md-title">Tambah Menu</div>
         </md-card-header>
 
-        <md-card-content>
-          <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('namaMenu')">
-                <label for="namaMenu">Nama menu</label>
-                <md-input name="namaMenu" id="namaMenu" autocomplete="given-name" v-model="form.namaMenu" :disabled="sending" />
-                <span class="md-error" v-if="!$v.form.namaMenu.required">Nama Harus diisi</span>
-              </md-field>
+        <md-card-content style="display:inline-block">
+            <div class="md-layout md-gutter"  style="float:left">
+              <div class="md-layout-item md-small-size-100">
+                <md-field :class="getValidationClass('namaMenu')">
+                  <label for="namaMenu">Nama menu</label>
+                  <md-input name="namaMenu" id="namaMenu" autocomplete="given-name" v-model="form.namaMenu" :disabled="sending" />
+                  <span class="md-error" v-if="!$v.form.namaMenu.required">Nama Harus diisi</span>
+                </md-field>            
+              <div class="md-layout-item md-small-size-100" style="margin-top:10px" >
+                  <md-field>
+                      <label>Deskripsi</label>
+                      <md-textarea v-model="form.deskripsi" style="height:130px"></md-textarea>
+                  </md-field>
+              </div>
             </div>
-
-            <div class="md-layout-item md-small-size-100" style="margin-top:10px" >
-                <md-field>
-                    <label>Deskripsi</label>
-                    <md-textarea v-model="form.deskripsi"></md-textarea>
-                </md-field>
-            </div>
- 
-
+            <div style="float:right;padding-top:20px">  
+            <img :src="imgUrl" style="height:150px;width:250px;object-fit:cover" />
             <div class="md-layout-item md-small-size-100">
                 <md-field>
                     <label>gambar</label>
                     <md-file @change="imgSelector" accept="image/*" />
                 </md-field>
+              </div>
             </div>
           </div>
         </md-card-content>
@@ -60,7 +60,8 @@
       },
       userSaved: false,
       sending: false,
-      lastUser: null
+      lastUser: null,
+      imgUrl: null,
     }),
     validations: {
       form: {
@@ -73,6 +74,8 @@
       imgSelector(e){
           let file = e.target.files[0]
           this.form.img = file
+          this.imgUrl=URL.createObjectURL(file)
+          console.log(this.imgUrl)
       },
 
       getValidationClass (fieldName) {
@@ -141,7 +144,6 @@
     left: 0;
   }
   #addMenu{
-    position: relative;
     top: 35px;
     left: 15px;
     height: 300px;
