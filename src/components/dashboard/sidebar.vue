@@ -11,7 +11,7 @@
             <span class="md-list-item-text">Manage Menu</span>
           </md-list-item>
 
-          <md-list-item to="/dashboard/home">
+          <md-list-item to="/dashboard/manage/kue">
             <md-icon>cake</md-icon>
             <span class="md-list-item-text">Manage Kue</span>
           </md-list-item>

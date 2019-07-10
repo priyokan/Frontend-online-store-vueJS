@@ -3,7 +3,7 @@
     <form novalidate class="md-layout" @submit.prevent="validateUser" style="">
       <md-card class="md-layout-item md-size-50 md-small-size-100" style="width: 1100px">
         <md-card-header>
-          <div class="md-title">Tambah Menu</div>
+          <div class="md-title">Perbarui Menu</div>
         </md-card-header>
 
         <md-card-content style="display:inline-block">
@@ -37,7 +37,7 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
         <md-card-actions>
-          <md-button type="submit" class="md-primary" :disabled="sending">Tamabh Menu</md-button>
+          <md-button type="submit" class="md-primary" :disabled="sending">Perbarui Menu</md-button>
         </md-card-actions>
       </md-card>
     </form>

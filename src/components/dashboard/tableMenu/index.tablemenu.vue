@@ -31,6 +31,7 @@
       </md-table-toolbar>
 
       <md-table-empty-state
+        v-show="notFound"
         md-label="No users found"
         :md-description="`No user found for this '${search}' query. Try a different search term or create a new user.`">
         <md-button class="md-primary md-raised" @click="showFormAdd">Create New User</md-button>
@@ -162,9 +163,9 @@ import Axios from 'axios';
     },
     mounted() {
       this.getApi()    
-      // setTimeout(() => {
-      //   this.notFound=true
-      // }, 1500);
+      setTimeout(() => {
+        this.notFound=true
+      }, 1500);
 
     },
   }
