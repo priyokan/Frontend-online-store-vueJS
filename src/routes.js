@@ -18,29 +18,34 @@ export function Routes(){
             name:'dashboard',
             component:dashboard,
             children:[{
-                path:'/dashboard/home',
+                path:'home',
                 name:'dashboardHome',
                 component:dashboardHome,
             },
             {
-                path:'/dashboard/manage/menu',
+                path:'manage/menu',
                 name:'manageMenu',
                 component:tableMenu,
                 children:[{
-                    path:'/dashboard/manage/menu/add',
+                    path:'add',
                     name:'addMenu',
                     component:addMenu
                 },
                 {
-                    path:'/dashboard/manage/menu/delete',
+                    path:'delete',
                     name:'deleteMenu',
                     component:deleteMenu
                 },
                 {
-                    path:'/dashboard/manage/menu/edit',
-                    name:'deleteMenu',
+                    path:'edit',
+                    name:'editMenu',
                     component:editMenu
                 },
+                {
+                    path:'/dashboard/manage/menu/hahaha',
+                    redirect:'/dashboard/manage/menu'
+                }
+            
                 ]
             }
         ]

@@ -41,7 +41,6 @@
         <md-table-cell></md-table-cell>       
       </md-table-row>
     </md-table>
-    {{selected}}
   </div>
   
 </template>
@@ -69,7 +68,6 @@ import Axios from 'axios';
       search: null,
       searched: [],
       menus: [ ],
-      selected:{},
       action:null,
       headerClass:['normal-header']
     }),
@@ -115,26 +113,32 @@ import Axios from 'axios';
       }),
       onSelect (item) {
         this.selected = item
+        localStorage.setItem('selected',JSON.stringify(item))
+      },
+      getApi(){
+        const option = {
+            baseURL: localStorage.getItem("api_url")+"/admin/menu",
+            timeout: 1500,
+            headers: {'content-type': 'application/x-www-form-urlencoded',
+                      'token':localStorage.getItem('token')},
+          }
+          Axios(option)
+          .then((result) => {
+            result.data.forEach(el => {
+              this.menus.push(el)
+            });
+          }).catch((err) => {
+            
+          });
       }
     },
     created () {
       this.searched = this.menus
     },
     mounted() {
-      const option = {
-        baseURL: localStorage.getItem("api_url")+"/admin/menu",
-        timeout: 1500,
-        headers: {'content-type': 'application/x-www-form-urlencoded',
-                  'token':localStorage.getItem('token')},
-      }
-      Axios(option)
-      .then((result) => {
-        result.data.forEach(el => {
-          this.menus.push(el)
-        });
-      }).catch((err) => {
-        
-      });
+      this.action=null    
+      console.log('hahah')
+      this.getApi()
     },
   }
 </script>
