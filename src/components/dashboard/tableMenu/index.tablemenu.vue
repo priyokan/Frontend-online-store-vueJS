@@ -2,15 +2,21 @@
   <div>
     <md-table v-model="searched" md-card @md-selected="onSelect">
       <md-table-toolbar :class="headerClass" >
-        <md-button v-show="!action||action=='addForm'" @click="showFormAdd" class="md-fab md-mini md-primary" style="z-index:10"> 
-          <md-icon v-show="!action">add</md-icon>
-          <md-icon v-show="action=='addForm'">close</md-icon>
+        <md-button v-show="!action||action=='addForm'" @click="showFormAdd" class="md-fab md-mini md-primary" style="z-index:10" > 
+          <md-icon v-show="!tambah">add</md-icon>
+          <md-icon v-show="tambah">close</md-icon>
         </md-button>
-        <md-button v-show="!action||action=='editForm'" @click="showFormEdit" class="md-fab md-mini" style="background-color:#25db3a;z-index:10"> 
+        <md-button v-show="!selected&&!action" class="md-fab md-mini" disabled> 
+          <md-icon v-show="!action">save</md-icon>
+        </md-button>
+        <md-button v-show="selected&&!action||action=='editForm'" @click="showFormEdit" class="md-fab md-mini" style="background-color:#25db3a;z-index:10"> 
           <md-icon v-show="!action">save</md-icon>
           <md-icon v-show="action=='editForm'">close</md-icon>
         </md-button>
-        <md-button v-show="!action||action=='deleteForm'" @click="showFormDelete" class="md-fab md-mini" style="z-index:10"> 
+        <md-button v-show="!selected&&!action" class="md-fab md-mini" style="z-index:0" disabled>
+          <md-icon v-show="!action">delete_sweep</md-icon> 
+        </md-button>
+        <md-button v-show="selected&&!action||action=='deleteForm'" @click="showFormDelete" class="md-fab md-mini" style="z-index:10"> 
           <md-icon v-show="!action">delete_sweep</md-icon>
           <md-icon v-show="action=='deleteForm'">close</md-icon>
         </md-button>
@@ -67,8 +73,11 @@ import Axios from 'axios';
     data: () => ({
       search: null,
       searched: [],
+      selected:null,
+      tambah:null,
       menus: [ ],
       action:null,
+      notFound:false,
       headerClass:['normal-header']
     }),
     methods: {
@@ -78,13 +87,13 @@ import Axios from 'axios';
         this.searched = searchByName(this.menus, this.search)
       },
       showFormAdd(){
-        if(!this.action){
+        if(!this.tambah){
           this.headerClass.push('header-turun')
-          this.action="addForm"
+          this.tambah= !this.tambah
           this.$router.push('/dashboard/manage/menu/add')
         }else{
           this.headerClass.pop()
-          this.action=null
+          this.tambah= !this.tambah
           this.$router.push('/dashboard/manage/menu')          
         }
       },
@@ -112,8 +121,8 @@ import Axios from 'axios';
       getClass: (index) => ({
       }),
       onSelect (item) {
-        this.selected = item
         localStorage.setItem('selected',JSON.stringify(item))
+        this.selected = localStorage.getItem('selected')
       },
       getApi(){
         const option = {
@@ -132,13 +141,32 @@ import Axios from 'axios';
           });
       }
     },
+    updated() {
+      let updatingTbl = localStorage.getItem('updateTable')
+      this.selected = localStorage.getItem('selected')
+      if(!this.selected){
+        this.action = null
+      }       
+      if(updatingTbl){
+        this.menus.length=0
+        this.getApi()
+        localStorage.removeItem('updateTable')
+      }
+      if(this.headerClass>1){
+        this.headerClass.pop()
+      }
+    },
+
     created () {
       this.searched = this.menus
     },
     mounted() {
-      this.action=null    
-      console.log('hahah')
-      this.getApi()
+      this.getApi()    
+      // setTimeout(() => {
+      //   this.notFound=true
+      // }, 1500);
+      console.log(this.selected)
+
     },
   }
 </script>

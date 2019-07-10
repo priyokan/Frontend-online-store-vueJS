@@ -9,7 +9,7 @@
                 </md-card-content>
 
                 <md-card-actions>
-                <md-button @click="hapus">yakin</md-button>
+                <md-button @click="hapus" >yakin</md-button>
                 </md-card-actions>
             </md-ripple>
         </md-card>
@@ -27,21 +27,28 @@ export default {
     methods: {
         hapus(){
 
-                this.$router.replace('/dashboard/manage/menu/hahaha')
-            // const option = {
-            //     headers: {
-            //             'x-device-id': 'stuff',
-            //             'Content-Type': 'multipart/form-data',
-            //             'token':localStorage.getItem('token')
-            //             },
-            //     }
-            // Axios .delete( localStorage.getItem("api_url")+"/admin/menu/"+this.Id,option)
-    //         .then((result) => {
-    //             console.log(result)
-    //         }).catch((err) => {
+            const option = {
+                headers: {
+                        'x-device-id': 'stuff',
+                        'Content-Type': 'multipart/form-data',
+                        'token':localStorage.getItem('token')
+                        },
+                }
+            Axios .delete( localStorage.getItem("api_url")+"/admin/menu/"+this.Id,option)
+            .then((result) => {
+                localStorage.setItem('updateTable',true)
+                localStorage.removeItem('selected')
+                this.$router.replace('/dashboard/manage/menu/')
+            }).catch((err) => {
                 
-    //   });
+              });
+
         },
+    },
+    destroyed() {        
+    },
+    updated() {
+        
     },
     mounted() {
         var getData = localStorage.getItem('selected')

@@ -41,12 +41,12 @@ export function Routes(){
                     name:'editMenu',
                     component:editMenu
                 },
-                {
-                    path:'/dashboard/manage/menu/hahaha',
-                    redirect:'/dashboard/manage/menu'
-                }
             
                 ]
+            },
+            {
+                path:'/dashboard/manage/hahaha',
+                redirect:'/dashboard/manage/menu'
             }
         ]
         }

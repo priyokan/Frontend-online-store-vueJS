@@ -101,12 +101,12 @@
                     'token':localStorage.getItem('token')
                     },
             }
-            console.log(this.img)
         Axios .post( localStorage.getItem("api_url")+"/admin/menu",fd,option)
 
         .then((result) => {
+            localStorage.setItem('updateTable',true)
             console.log(result)
-            this.$router.push('/dashboard/manage/menu/0')
+            this.$router.push('/dashboard/manage/menu')
         }).catch((err) => {
             
         });
