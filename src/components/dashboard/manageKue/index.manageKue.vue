@@ -39,6 +39,9 @@ export default {
         }
     },
     mounted() {
+        this.getMenu()
+        const ls = localStorage
+        console.log(ls)
     },
 }
 </script>

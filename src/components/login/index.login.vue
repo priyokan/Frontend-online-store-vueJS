@@ -89,7 +89,6 @@
         .then((result) => {
           if(result.data.status=='sukses'){
             localStorage.setItem('token',result.data.data.token)
-            console.log(result.data)
             this.success()
           }
           this.pesan=result.data.message   

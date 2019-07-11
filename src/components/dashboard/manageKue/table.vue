@@ -41,10 +41,13 @@
         <md-table-cell md-label="#" md-numeric>{{ index+1 }}</md-table-cell>
         <md-table-cell md-label="Nama" md-sort-by="namaKue">{{ item.namaKue }}</md-table-cell>
         <md-table-cell md-label="Deskripsi" md-sort-by="deskripsi">{{ item.deskripsi }}</md-table-cell>
-        <md-table-cell md-label="Gambar"><img :src="item.imgMenu" alt="" style="
+        <md-table-cell md-label="Harga"> {{item.harga}}</md-table-cell>
+        <md-table-cell md-label="Type" md-sort-by="namaKue">{{ item.menuType }}</md-table-cell>
+        <md-table-cell md-label="Gambar"><img :src="item.imgKue" alt="" style="
           width: 60px;
           height: 30px;
-          object-fit: cover;"> </md-table-cell>    
+          object-fit: cover;"> </md-table-cell>
+        <md-table-cell md-label="Pesanan" md-sort-by="deskripsi">{{ item.jumlahPesanan }}</md-table-cell>    
       </md-table-row>
     </md-table>
   </div>
@@ -59,7 +62,7 @@
 
   const searchByName = (items, term) => {
     if (term) {
-      return items.filter(item => toLower(item.namaKue).includes(toLower(term)))
+      return items.filter(item => toLower(item.namaKue ).includes(toLower(term)))
     }
 
     return items
@@ -67,7 +70,7 @@
 import Axios from 'axios';
 
   export default {
-    name: 'TableSearch',
+    name: 'TableKue',
     components:{
     },
     data: () => ({
@@ -75,25 +78,25 @@ import Axios from 'axios';
       searched: [],
       selected:null,
       tambah:null,
-      menus: [ ],
+      kues: [ ],
       action:null,
       notFound:false,
       headerClass:['normal-header']
     }),
     methods: {
       searchOnTable () {
-        this.searched = searchByName(this.menus, this.search)
+        this.searched = searchByName(this.kues, this.search)
       },
       showFormAdd(){
         if(!this.tambah){
           this.headerClass.push('header-turun')
           this.tambah= !this.tambah
-          this.$router.push('/dashboard/manage/menu/add')
+          this.$router.push('/dashboard/manage/kue/add')
           this.action='addForm'
         }else{
           this.headerClass.pop()
           this.tambah= !this.tambah
-          this.$router.push('/dashboard/manage/menu')          
+          this.$router.push('/dashboard/manage/kue')          
           this.action=null
         }
       },
@@ -101,21 +104,21 @@ import Axios from 'axios';
         if(!this.action){
           this.headerClass.push('header-turun')
           this.action="editForm"
-          this.$router.push('/dashboard/manage/menu/edit')
+          this.$router.push('/dashboard/manage/kue/edit')
         }else{
           this.headerClass.pop()
           this.action=null
-          this.$router.push('/dashboard/manage/menu')          
+          this.$router.push('/dashboard/manage/kue')          
         }
       },
       showFormDelete(){
 
         if(!this.action){
           this.action="deleteForm"
-          this.$router.push('/dashboard/manage/menu/delete')
+          this.$router.push('/dashboard/manage/kue/delete')
         }else{
           this.action=null
-          this.$router.push('/dashboard/manage/menu')          
+          this.$router.push('/dashboard/manage/kue')          
         }
       },
       getClass: (index) => ({
@@ -134,7 +137,7 @@ import Axios from 'axios';
           Axios(option)
           .then((result) => {
             result.data.forEach(el => {
-              this.menus.push(el)
+              this.kues.push(el)
             });
           }).catch((err) => {
             
@@ -147,7 +150,7 @@ import Axios from 'axios';
         this.selected=null
       }
       if(updatingTbl){
-        this.menus.length=0
+        this.kues.length=0
         this.getApi()
         this.action=null
         localStorage.removeItem('updateTable')
@@ -159,7 +162,7 @@ import Axios from 'axios';
     },
 
     created () {
-      this.searched = this.menus
+      this.searched = this.kues
     },
     mounted() {
       this.getApi()    
