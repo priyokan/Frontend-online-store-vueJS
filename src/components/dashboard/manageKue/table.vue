@@ -71,6 +71,9 @@ import Axios from 'axios';
 
   export default {
     name: 'TableKue',
+    props:{
+      kuee:Array,
+    },
     components:{
     },
     data: () => ({
@@ -128,20 +131,25 @@ import Axios from 'axios';
         this.selected = localStorage.getItem('selected')
       },
       getApi(){
-        const option = {
-            baseURL: localStorage.getItem("api_url")+"/admin/kue",
-            timeout: 1500,
-            headers: {'content-type': 'application/x-www-form-urlencoded',
-                      'token':localStorage.getItem('token')},
-          }
-          Axios(option)
-          .then((result) => {
-            result.data.forEach(el => {
-              this.kues.push(el)
-            });
-          }).catch((err) => {
+
+        this.kuee.forEach(el => {
+          this.kues.push(el)
+        });
+
+        // const option = {
+        //     baseURL: localStorage.getItem("api_url")+"/admin/kue",
+        //     timeout: 1500,
+        //     headers: {'content-type': 'application/x-www-form-urlencoded',
+        //               'token':localStorage.getItem('token')},
+        //   }
+        //   Axios(option)
+        //   .then((result) => {
+        //     result.data.forEach(el => {
+        //       this.kues.push(el)
+        //     });
+        //   }).catch((err) => {
             
-          });
+        //   });
       }
     },
     updated() {
@@ -163,9 +171,10 @@ import Axios from 'axios';
 
     created () {
       this.searched = this.kues
+      this.getApi()
     },
     mounted() {
-      this.getApi()    
+      console.log(this.kues)
       setTimeout(() => {
         this.notFound=true
       }, 1500);
@@ -182,6 +191,6 @@ import Axios from 'axios';
     max-width: 300px;
   } 
   .header-turun{
-    margin-bottom: 370px;
+    margin-bottom: 400px;
   }
 </style>

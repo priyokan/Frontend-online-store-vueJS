@@ -6,7 +6,8 @@ import addMenu from './components/dashboard/tableMenu/addMenu.vue'
 import deleteMenu from './components/dashboard/tableMenu/delete.vue'
 import editMenu from './components/dashboard/tableMenu/editForm.vue'
 import manageKue from './components/dashboard/manageKue/index.manageKue.vue'
-import deleteKue from './components/dashboard/manageKue/delete'
+import deleteKue from './components/dashboard/manageKue/delete.vue'
+import AddKue from './components/dashboard/manageKue/add.vue'
 
 export function Routes(){
     return [
@@ -55,7 +56,12 @@ export function Routes(){
                         path:'delete',
                         name:'deleteKue',
                         component:deleteKue
-                    }
+                    },
+                    {
+                        path:'add',
+                        name:'addKue',
+                        component:AddKue,
+                    }   
                 ]
             }
         ]
