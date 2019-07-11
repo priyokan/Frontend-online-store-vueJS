@@ -28,22 +28,22 @@ export default {
     methods: {
         hapus(){
 
-            // const option = {
-            //     headers: {
-            //             'x-device-id': 'stuff',
-            //             'Content-Type': 'multipart/form-data',
-            //             'token':localStorage.getItem('token')
-            //             },
-            //     }
-            // Axios .delete( localStorage.getItem("api_url")+"/admin/kue/"+this.Id,option)
-            // .then((result) => {
-                // console.log(result)
+            const option = {
+                headers: {
+                        'x-device-id': 'stuff',
+                        'Content-Type': 'multipart/form-data',
+                        'token':localStorage.getItem('token')
+                        },
+                }
+            Axios .delete( localStorage.getItem("api_url")+"/admin/kue/"+this.Id,option)
+            .then((result) => {
+                console.log(result)
                 localStorage.setItem('updateTable',true)
                 localStorage.removeItem('selected')
                 this.$router.replace('/dashboard/manage/kue/')
-            // }).catch((err) => {
+            }).catch((err) => {
                 
-            //   });
+              });
         },
     },
     destroyed() {        

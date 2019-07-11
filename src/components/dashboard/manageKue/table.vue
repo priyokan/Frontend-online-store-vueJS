@@ -149,7 +149,6 @@ import Axios from 'axios';
         this.kues.length=0
         this.getApi()
         this.action=null
-        localStorage.removeItem('updateTable')
         this.tambah=false
         this.headerClass.pop()
       }

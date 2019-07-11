@@ -124,10 +124,9 @@ export default {
         },
     },
     created() {
-        
+        this.getKue()
     },
     mounted() {
-        this.getKue()
         this.getMenu()
         // localStorage.removeItem('selected') 
     },
