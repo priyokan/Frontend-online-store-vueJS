@@ -14,12 +14,12 @@ type
         <md-card-content style="display:inline-block">
             <div class="md-layout md-gutter"  style="float:left">
               <div class="md-layout-item md-small-size-100">
-                <md-field :class="getValidationClass('namaMenu')">
-                  <label for="namaMenu">Nama Kue</label>
-                  <md-input name="namaMenu" id="namaMenu" autocomplete="given-name" v-model="form.namaMenu" :disabled="sending" />
-                  <span class="md-error" v-if="!$v.form.namaMenu.required">Nama Harus diisi</span>
+                <md-field :class="getValidationClass('namaKue')">
+                  <label for="namaKue">Nama Kue</label>
+                  <md-input name="namaKue" id="namaKue" autocomplete="given-name" v-model="form.namaKue" :disabled="sending" />
+                  <span class="md-error" v-if="!$v.form.namaKue.required">Nama Harus diisi</span>
                 </md-field>            
-              <div class="md-layout-item md-small-size-100" style="margin-top:10px" >
+              <div class="md-layout-item md-small-size-100" style="margin-top:15px" >
                   <md-field>
                       <label>Deskripsi</label>
                       <md-textarea v-model="form.deskripsi" style="height:130px"></md-textarea>
@@ -28,15 +28,18 @@ type
               <div class="md-layout-item">
                     <md-field>
                     <md-select v-model="form.menuType" name="menuType" id="menuType" placeholder="Type menu">
-                        <md-option value="australia">Australia</md-option>
-                        <md-option value="brazil">Brazil</md-option>
-                        <md-option value="japan">Japan</md-option>
-                        <md-option value="united-states">United States</md-option>
+                        <md-option v-for="(item, index) in menus" :key="index" :value="item">{{item}}</md-option>
                     </md-select>
                     </md-field>
                 </div>
             </div>
             <div style="float:right;padding-top:20px">  
+            <md-field :class="getValidationClass('harga')">
+                <label>Harga</label>
+                <span class="md-prefix">Rp</span>
+                <md-input type="number"  v-model="form.harga"></md-input>
+                <span class="md-error" v-if="!$v.form.harga.required">Harga Harus diisi</span>
+            </md-field>
             <img :src="imgUrl" style="height:150px;width:250px;object-fit:cover" />
             <div class="md-layout-item md-small-size-100">
                 <md-field>
@@ -51,7 +54,7 @@ type
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
         <md-card-actions>
-          <md-button type="submit" class="md-primary" :disabled="sending">Tambah Menu</md-button>
+          <md-button type="submit" class="md-primary" :disabled="sending">Tambah kue</md-button>
         </md-card-actions>
       </md-card>
     </form>
@@ -60,7 +63,7 @@ type
 
 <script>
   import { validationMixin } from 'vuelidate'
-  import {required,} from 'vuelidate/lib/validators'
+  import {required} from 'vuelidate/lib/validators'
   import Axios from 'axios'
   import FormData from 'form-data'
 
@@ -79,22 +82,40 @@ type
       sending: false,
       lastUser: null,
       imgUrl: null,
+      menus:[]
     }),
     validations: {
       form: {
-        namaMenu: {
+        namaKue: {
           required,
         },
+        harga:{
+            required
+        }
       }
     },
     methods: {
-      imgSelector(e){
-          let file = e.target.files[0]
-          this.form.img = file
-          this.imgUrl=URL.createObjectURL(file)
-          console.log(this.imgUrl)
-      },
-
+        imgSelector(e){
+            let file = e.target.files[0]
+            this.form.img = file
+            this.imgUrl=URL.createObjectURL(file)
+        },
+        getMenu(){
+            const option = {
+            baseURL: localStorage.getItem("api_url")+"/admin/menu",
+            timeout: 1500,
+            headers: {'content-type': 'application/x-www-form-urlencoded',
+                      'token':localStorage.getItem('token')},
+          }
+          Axios(option)
+          .then((result) => {
+            result.data.forEach(el => {
+              this.menus.push(el.namaMenu)
+            });
+          }).catch((err) => {
+            
+          });
+        },
       getValidationClass (fieldName) {
         const field = this.$v.form[fieldName]
 
@@ -106,30 +127,34 @@ type
       },
       clearForm () {
         this.$v.$reset()
-        this.form.namaMenu = null
+        this.form.namaKue = null
         this.form.deskripsi = null
+        this.form.menuType = null
+        this.form.harga = null
+        this.form.img= null
       },
       submit(){
-        // const fd = new FormData()
-        // fd.append('namaMenu',this.form.namaMenu)
-        // fd.append('deskripsi',this.form.deskripsi)
-        // fd.append('imgMenu',this.form.img)
-        // const option = {
-        //     headers: {
-        //             'x-device-id': 'stuff',
-        //             'Content-Type': 'multipart/form-data',
-        //             'token':localStorage.getItem('token')
-        //             },
-        //     }
-        // Axios .post( localStorage.getItem("api_url")+"/admin/menu",fd,option)
+        const fd = new FormData()
+        fd.append('namaKue',this.form.namaKue)
+        fd.append('deskripsi',this.form.deskripsi)
+        fd.append('menuType',this.form.menuType)
+        fd.append('harga',this.form.harga)
+        fd.append('imgKue',this.form.img)
+        const option = {
+            headers: {
+                    'x-device-id': 'stuff',
+                    'Content-Type': 'multipart/form-data',
+                    'token':localStorage.getItem('token')
+                    },
+            }
+        Axios .post( localStorage.getItem("api_url")+"/admin/kue",fd,option)
 
-        // .then((result) => {
+        .then((result) => {
             localStorage.setItem('updateTable',true)
-        //     console.log(result)
-            this.$router.push('/dashboard/manage/kue')
-        // }).catch((err) => {
+            this.$router.go(-1)
+        }).catch((err) => {
             
-        // });
+        });
       },
       saveUser () {
         this.sending = true
@@ -149,7 +174,10 @@ type
           this.saveUser()
         }
       }
-    }
+    },
+    mounted() {
+        this.getMenu()
+    },
   }
 </script>
 
