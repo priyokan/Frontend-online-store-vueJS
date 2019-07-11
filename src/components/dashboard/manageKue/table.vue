@@ -2,26 +2,7 @@
   <div>
     <md-table v-model="searched" @md-selected="onSelect">
       <md-table-toolbar :class="headerClass" >
-        <md-button v-show="!action||action=='addForm'" @click="showFormAdd" class="md-fab md-mini md-primary" style="z-index:10" > 
-          <md-icon v-show="!tambah">add</md-icon>
-          <md-icon v-show="tambah">close</md-icon>
-        </md-button>
-        <md-button v-show="!selected&&!action" class="md-fab md-mini" disabled> 
-          <md-icon v-show="!action">save</md-icon>
-        </md-button>
-        <md-button v-show="selected&&!action||action=='editForm'" @click="showFormEdit" class="md-fab md-mini" style="background-color:#25db3a;z-index:10"> 
-          <md-icon v-show="!action">save</md-icon>
-          <md-icon v-show="action=='editForm'">close</md-icon>
-        </md-button>
-        <md-button v-show="!selected&&!action" class="md-fab md-mini" style="z-index:0" disabled>
-          <md-icon v-show="!action">delete_sweep</md-icon> 
-        </md-button>
-        <md-button v-show="selected&&!action||action=='deleteForm'" @click="showFormDelete" class="md-fab md-mini" style="z-index:10"> 
-          <md-icon v-show="!action">delete_sweep</md-icon>
-          <md-icon v-show="action=='deleteForm'">close</md-icon>
-        </md-button>
         <div class="md-toolbar-section-start" >
-        <router-view> </router-view>
           <h1 class="md-title">Menu</h1>
         </div>
 
@@ -73,6 +54,7 @@ import Axios from 'axios';
     name: 'TableKue',
     props:{
       kuee:Array,
+      type:String,
     },
     components:{
     },
@@ -129,11 +111,17 @@ import Axios from 'axios';
       onSelect (item) {
         localStorage.setItem('selected',JSON.stringify(item))
         this.selected = localStorage.getItem('selected')
+        this.$emit('rowClicked')
       },
       getApi(){
 
         this.kuee.forEach(el => {
-          this.kues.push(el)
+          if(el.menuType==this.type){
+            this.kues.push(el)
+          }
+          else if(this.type=='all'){
+            this.kues.push(el)  
+          }
         });
 
         // const option = {
@@ -174,7 +162,6 @@ import Axios from 'axios';
       this.getApi()
     },
     mounted() {
-      console.log(this.kues)
       setTimeout(() => {
         this.notFound=true
       }, 1500);
