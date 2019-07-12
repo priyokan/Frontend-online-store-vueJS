@@ -5,7 +5,7 @@
         <md-button class="md-icon-button" @click="toggleMenu" v-if="!menuVisible">
           <md-icon>menu</md-icon>
         </md-button>
-            <Navbar/>
+            <Navbar :title="url"/>
       </md-app-toolbar>
 
       <md-app-drawer class="md-elevation-3" :md-active.sync="menuVisible" md-persistent="mini">
@@ -44,14 +44,25 @@ import Sidebar from './sidebar'
         Sidebar,
     },
     data: () => ({
-      menuVisible: false
+      menuVisible: false,
+      url:null
     }),
     methods: {
       toggleMenu () {
         this.menuVisible = !this.menuVisible
+      },
+      createTitle(){
+        const fullUrl =  window.location.pathname        
+        const pathUrl = fullUrl.split('/')
+        const lastIndex = pathUrl.length-1
+        this.url = pathUrl[lastIndex]
       }
+    },    
+    updated() {   
+      this.createTitle()
     },
     mounted() {
+      this.createTitle()
     },
 
   }
@@ -77,5 +88,6 @@ import Sidebar from './sidebar'
     .md-drawer {
         width: 230px;
         max-width: calc(100vw - 125px);
+
     }
 </style>
