@@ -146,6 +146,7 @@
 
         .then(() => {
             localStorage.setItem('updateTable',true)
+            localStorage.removeItem('selected')
             this.$router.go(-1)
         }).catch(() => {
             

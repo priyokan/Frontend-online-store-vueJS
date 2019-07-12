@@ -160,6 +160,7 @@ import Axios from 'axios';
 
     created () {
       this.searched = this.menus
+      localStorage.removeItem('selected')
     },
     mounted() {
       this.getApi()    

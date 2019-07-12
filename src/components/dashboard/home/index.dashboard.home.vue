@@ -80,6 +80,9 @@ export default {
             buffer:20,
         }
     },
+    created() {        
+        localStorage.removeItem('selected')
+    },
 }
 </script>
 <style lang="scss" scoped>

@@ -125,6 +125,7 @@ export default {
         },
     },
     created() {
+        localStorage.removeItem('selected')
         this.getKue()
     },
     mounted() {
