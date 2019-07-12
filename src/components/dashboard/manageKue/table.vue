@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @mouseenter="updateAll">
     <md-table v-model="searched" @md-selected="onSelect">
       <md-table-toolbar :class="headerClass" >
         <div class="md-toolbar-section-start" >
@@ -114,7 +114,7 @@ import Axios from 'axios';
         this.$emit('rowClicked')
       },
       getApi(){
-
+        this.kues.length = 0
         this.kuee.forEach(el => {
           if(el.menuType==this.type){
             this.kues.push(el)
@@ -123,37 +123,13 @@ import Axios from 'axios';
             this.kues.push(el)  
           }
         });
-
-        // const option = {
-        //     baseURL: localStorage.getItem("api_url")+"/admin/kue",
-        //     timeout: 1500,
-        //     headers: {'content-type': 'application/x-www-form-urlencoded',
-        //               'token':localStorage.getItem('token')},
-        //   }
-        //   Axios(option)
-        //   .then((result) => {
-        //     result.data.forEach(el => {
-        //       this.kues.push(el)
-        //     });
-        //   }).catch((err) => {
-            
-        //   });
+      },
+      updateAll(){
+        this.getApi()
       }
     },
     updated() {
-      let updatingTbl = localStorage.getItem('updateTable')      
-      if(localStorage.getItem('selected')=='undefined'||!localStorage.getItem('selected')){
-        this.selected=null
-      }
-      if(updatingTbl){
-        this.kues.length=0
-        this.getApi()
-        this.action=null
-        this.tambah=false
-        this.headerClass.pop()
-      }
-      if(this.headerClass>1){
-      }
+      
     },
 
     created () {

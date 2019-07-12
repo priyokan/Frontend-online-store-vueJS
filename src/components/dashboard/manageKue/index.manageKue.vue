@@ -24,7 +24,12 @@
                 <md-tab v-for="(item, index) in menus" 
                         :key="index" 
                         :id="item" 
-                        :md-label="item"> <Table @rowClicked="TableClicked" :type='item' :kuee='kues'/> </md-tab>
+                        :md-label="item"> 
+                    <Table
+                        @rowClicked="TableClicked" 
+                        :type='item'
+                        :kuee='kues'/> 
+                </md-tab>
             </md-tabs>
         </md-card>
     </div>
@@ -128,7 +133,6 @@ export default {
     },
     mounted() {
         this.getMenu()
-        // localStorage.removeItem('selected') 
     },
     updated() {        
         let updatingTbl = localStorage.getItem('updateTable')     
@@ -141,7 +145,6 @@ export default {
             this.action=null
             localStorage.removeItem('updateTable')
             this.tambah=false
-            // this.headerClass.pop()
         }
     },
 }

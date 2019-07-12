@@ -37,7 +37,6 @@ export default {
                 }
             Axios .delete( localStorage.getItem("api_url")+"/admin/kue/"+this.Id,option)
             .then((result) => {
-                console.log(result)
                 localStorage.setItem('updateTable',true)
                 localStorage.removeItem('selected')
                 this.$router.replace('/dashboard/manage/kue/')
