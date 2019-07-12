@@ -8,6 +8,7 @@ import editMenu from './components/dashboard/tableMenu/editForm.vue'
 import manageKue from './components/dashboard/manageKue/index.manageKue.vue'
 import deleteKue from './components/dashboard/manageKue/delete.vue'
 import AddKue from './components/dashboard/manageKue/add.vue'
+import editKue from './components/dashboard/manageKue/edit.vue'
 
 export function Routes(){
     return [
@@ -61,6 +62,11 @@ export function Routes(){
                         path:'add',
                         name:'addKue',
                         component:AddKue,
+                    },
+                    {
+                        path:'edit',
+                        name:'editKue',
+                        component:editKue
                     }   
                 ]
             }

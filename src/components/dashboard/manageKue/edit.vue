@@ -35,7 +35,8 @@
                 <md-input type="number"  v-model="form.harga"></md-input>
                 <span class="md-error" v-if="!$v.form.harga.required">Harga Harus diisi</span>
             </md-field>
-            <img :src="imgUrl" style="height:150px;width:250px;object-fit:cover" />
+            <img v-if="!imgUrl" :src="form.img" style="height:150px;width:250px;object-fit:cover" />
+            <img v-else :src="imgUrl" style="height:150px;width:250px;object-fit:cover" />
             <div class="md-layout-item md-small-size-100">
                 <md-field>
                     <label>gambar</label>
@@ -67,6 +68,7 @@
     mixins: [validationMixin],
     data: () => ({
       form: {
+        id:null,
         namaKue: null,
         deskripsi: null,
         menuType:null,
@@ -107,7 +109,7 @@
             result.data.forEach(el => {
               this.menus.push(el.namaMenu)
             });
-          }).catch((err) => {
+          }).catch(() => {
             
           });
         },
@@ -122,6 +124,7 @@
       },
       clearForm () {
         this.$v.$reset()
+        this.form.id=null
         this.form.namaKue = null
         this.form.deskripsi = null
         this.form.menuType = null
@@ -142,12 +145,12 @@
                     'token':localStorage.getItem('token')
                     },
             }
-        Axios .put( localStorage.getItem("api_url")+"/admin/kue",fd,option)
+        Axios .put( localStorage.getItem("api_url")+"/admin/kue/"+this.form.id,fd,option)
 
-        .then((result) => {
+        .then(() => {
             localStorage.setItem('updateTable',true)
             this.$router.go(-1)
-        }).catch((err) => {
+        }).catch(() => {
             
         });
       },
@@ -170,8 +173,20 @@
         }
       }
     },
+    beforeMount() {
+        var getData = localStorage.getItem('selected')
+        getData = JSON.parse(getData)
+
+      this.form.id= getData._id
+      this.form.namaKue=getData.namaKue
+      this.form.deskripsi=getData.deskripsi
+      this.form.menuType = getData.menuType
+      this.form.harga = getData.harga
+      this.form.img=getData.imgKue
+
+    },
     mounted() {
-        this.getMenu()
+        this.getMenu()        
     },
   }
 </script>

@@ -8,7 +8,7 @@
             <md-button v-show="!selected&&!action" class="md-fab md-mini" disabled> 
             <md-icon v-show="!action">save</md-icon>
             </md-button>
-            <md-button v-show="selected&&!action||action=='editForm'" class="md-fab md-mini" style="background-color:#25db3a;z-index:10"> 
+            <md-button v-show="selected&&!action||action=='editForm'" @click="showFormEdit" class="md-fab md-mini" style="background-color:#25db3a;z-index:10"> 
             <md-icon v-show="!action">save</md-icon>
             <md-icon v-show="action=='editForm'">close</md-icon>
             </md-button>
@@ -19,7 +19,7 @@
             <md-icon v-show="!action">delete_sweep</md-icon>
             <md-icon v-show="action=='deleteForm'">close</md-icon>
             </md-button>
-            <router-view> </router-view>
+            <router-view style="padding:30px 15px;"> </router-view>
             <md-tabs>
                 <md-tab v-for="(item, index) in menus" 
                         :key="index" 
@@ -71,7 +71,7 @@ export default {
             if(!this.action){
             // this.headerClass.push('header-turun')
             this.action="editForm"
-            this.$router.push('/dashboard/manage/kue/edit')
+            this.$router.push('kue/edit')
             }else{
             // this.headerClass.pop()
             this.action=null
