@@ -57,7 +57,12 @@ import Sidebar from './sidebar'
         const lastIndex = pathUrl.length-1
         this.url = pathUrl[lastIndex]
       }
-    },    
+    },     
+    beforeCreate: function () {
+      if (!localStorage.getItem('token')) {
+          this.$router.replace('/login')
+      }
+    },  
     updated() {   
       this.createTitle()
     },
