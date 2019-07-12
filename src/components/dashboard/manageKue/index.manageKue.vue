@@ -88,7 +88,7 @@ export default {
             this.$router.push('/dashboard/manage/kue')          
             }
         },
-      getClass: (index) => ({
+      getClass: () => ({
       }),
       onSelect (item) {
         localStorage.setItem('selected',JSON.stringify(item))
@@ -107,9 +107,7 @@ export default {
             result.data.forEach(el => {
               this.menus.push(el.namaMenu)
             });
-          }).catch((err) => {
-            
-          });
+          })
         },
         getKue(){
             const option = {
@@ -123,9 +121,7 @@ export default {
             result.data.forEach(el => {
               this.kues.push(el)
             });
-          }).catch((err) => {
-            
-          });
+          })
         },
     },
     created() {

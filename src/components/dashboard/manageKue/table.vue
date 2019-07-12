@@ -48,7 +48,6 @@
 
     return items
   }
-import Axios from 'axios';
 
   export default {
     name: 'TableKue',
@@ -106,7 +105,7 @@ import Axios from 'axios';
           this.$router.push('/dashboard/manage/kue')          
         }
       },
-      getClass: (index) => ({
+      getClass: () => ({
       }),
       onSelect (item) {
         localStorage.setItem('selected',JSON.stringify(item))

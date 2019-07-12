@@ -1,9 +1,9 @@
 <template>
-  <div id='addKue' style="position:absolute">
+  <div id='editKue' style="position:absolute">
     <form novalidate class="md-layout" @submit.prevent="validateUser" style="">
       <md-card class="md-layout-item md-size-50 md-small-size-100" style="width: 1100px">
         <md-card-header>
-          <div class="md-title">Tambah Kue</div>
+          <div class="md-title">Edit Kue</div>
         </md-card-header>
 
         <md-card-content style="display:inline-block">
@@ -49,7 +49,7 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
         <md-card-actions>
-          <md-button type="submit" class="md-primary" :disabled="sending">Tambah</md-button>
+          <md-button type="submit" class="md-primary" :disabled="sending"> Edit </md-button>
         </md-card-actions>
       </md-card>
     </form>
@@ -107,7 +107,7 @@
             result.data.forEach(el => {
               this.menus.push(el.namaMenu)
             });
-          }).catch(() => {
+          }).catch((err) => {
             
           });
         },
@@ -142,12 +142,12 @@
                     'token':localStorage.getItem('token')
                     },
             }
-        Axios .post( localStorage.getItem("api_url")+"/admin/kue",fd,option)
+        Axios .put( localStorage.getItem("api_url")+"/admin/kue",fd,option)
 
-        .then(() => {
+        .then((result) => {
             localStorage.setItem('updateTable',true)
             this.$router.go(-1)
-        }).catch(() => {
+        }).catch((err) => {
             
         });
       },
