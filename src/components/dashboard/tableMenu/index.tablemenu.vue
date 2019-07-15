@@ -32,9 +32,9 @@
 
       <md-table-empty-state
         v-show="notFound"
-        md-label="No users found"
-        :md-description="`No user found for this '${search}' query. Try a different search term or create a new user.`">
-        <md-button class="md-primary md-raised" @click="showFormAdd">Create New User</md-button>
+        md-label="Menu tidak ditemukan"
+        :md-description="`No menu found for this '${search}' query. Try a different search term or create a new menu.`">
+        <md-button class="md-primary md-raised" @click="showFormAdd">Tambah menu baru</md-button>
       </md-table-empty-state>
 
       <md-table-row slot="md-table-row" slot-scope="{ item,index }"  :class="getClass(index)" md-selectable="single">
@@ -129,13 +129,20 @@ import Axios from 'axios';
             baseURL: localStorage.getItem("api_url")+"/admin/menu",
             timeout: 1500,
             headers: {'content-type': 'application/x-www-form-urlencoded',
-                      'token':localStorage.getItem('token')},
+                      'token':localStorage.getItem('token'),
+                      'refreshtoken':localStorage.getItem('refreshtoken')},
           }
           Axios(option)
           .then((result) => {
-            result.data.forEach(el => {
-              this.menus.push(el)
-            });
+            if(result.data.data){
+              localStorage.setItem('token',result.data.data.newToken)
+              localStorage.setItem('refreshtoken',result.data.data.newTefreshToken)
+              this.getApi()
+            }else{
+              result.data.forEach(el => {
+                this.menus.push(el)
+              });
+            }
           }).catch((err) => {
             
           });

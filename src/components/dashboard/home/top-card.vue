@@ -1,5 +1,5 @@
 <template>
-    <div id="top-card-home">
+    <div @click="route" id="top-card-home">
         <md-card md-with-hover class="md-size-3">
             <md-ripple class='md-layout'>  
                 <md-icon class="icon md-size-3x" :style="coloringIcon"> 
@@ -26,10 +26,16 @@ export default {
         title:String,
         count:String,
         iconColor:String,
+        url:String,
     },
     data() {
         return {
             
+        }
+    },
+    methods: {
+        route(){
+            this.$router.replace(this.url)
         }
     },
     computed: {

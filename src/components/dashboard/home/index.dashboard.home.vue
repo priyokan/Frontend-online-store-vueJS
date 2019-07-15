@@ -2,6 +2,7 @@
     <div>
         <div class='md-layout md-gutter' style="margin:auto">
             <topChard
+             url='ordered'
              icon='shopping_cart'
              iconColor='#e00d3e'
              title="Pesanan"

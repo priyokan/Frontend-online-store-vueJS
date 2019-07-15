@@ -9,6 +9,8 @@ import manageKue from './components/dashboard/manageKue/index.manageKue.vue'
 import deleteKue from './components/dashboard/manageKue/delete.vue'
 import AddKue from './components/dashboard/manageKue/add.vue'
 import editKue from './components/dashboard/manageKue/edit.vue'
+import Pesanan from './components/dashboard/pesanan/index.pesanan.vue'
+import addAdmin from './components/dashboard/addAdmin/index.addAdmin.vue'
 
 export function Routes(){
     return [
@@ -25,6 +27,21 @@ export function Routes(){
                 path:'home',
                 name:'dashboardHome',
                 component:dashboardHome,
+            },
+            {
+                path:'ordered',
+                name:'ordered',
+                component:Pesanan,
+            },
+            {
+                path:'order/onprogress',
+                name:'orderOnprogres',
+                // component:
+            },
+            {
+                path:'addAdmin',
+                name:'addAdmin',
+                component:addAdmin
             },
             {
                 path:'manage/menu',

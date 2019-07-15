@@ -72,38 +72,7 @@
         this.searched = searchByName(this.kues, this.search)
       },
       showFormAdd(){
-        if(!this.tambah){
-          this.headerClass.push('header-turun')
-          this.tambah= !this.tambah
-          this.$router.push('/dashboard/manage/kue/add')
-          this.action='addForm'
-        }else{
-          this.headerClass.pop()
-          this.tambah= !this.tambah
-          this.$router.push('/dashboard/manage/kue')          
-          this.action=null
-        }
-      },
-      showFormEdit(){
-        if(!this.action){
-          this.headerClass.push('header-turun')
-          this.action="editForm"
-          this.$router.push('/dashboard/manage/kue/edit')
-        }else{
-          this.headerClass.pop()
-          this.action=null
-          this.$router.push('/dashboard/manage/kue')          
-        }
-      },
-      showFormDelete(){
-
-        if(!this.action){
-          this.action="deleteForm"
-          this.$router.push('/dashboard/manage/kue/delete')
-        }else{
-          this.action=null
-          this.$router.push('/dashboard/manage/kue')          
-        }
+        this.$emit('formAddTriger')
       },
       getClass: () => ({
       }),

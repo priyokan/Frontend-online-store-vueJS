@@ -16,6 +16,11 @@
             <span class="md-list-item-text">Manage Kue</span>
           </md-list-item>
 
+          <md-list-item to="/dashboard/addAdmin">
+            <md-icon>person_add</md-icon>
+            <span class="md-list-item-text">Tambah Admin</span>
+          </md-list-item>
+
           <md-list-item to="/dashboard/home">
             <md-icon>assignment</md-icon>
             <span class="md-list-item-text">Laporan Bulanan</span>

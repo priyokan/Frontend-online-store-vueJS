@@ -26,6 +26,7 @@
                         :id="item" 
                         :md-label="item"> 
                     <Table
+                        @formAddTriger='showFormAdd'
                         @rowClicked="TableClicked" 
                         :type='item'
                         :kuee='kues'/> 
@@ -99,14 +100,22 @@ export default {
             baseURL: localStorage.getItem("api_url")+"/admin/menu",
             timeout: 1500,
             headers: {'content-type': 'application/x-www-form-urlencoded',
+                      'refreshtoken':localStorage.getItem('refreshtoken'),
                       'token':localStorage.getItem('token')},
           }
           Axios(option)
           .then((result) => {
-            this.menus.push('all')
-            result.data.forEach(el => {
-              this.menus.push(el.namaMenu)
-            });
+              if(result.data.data){
+                localStorage.setItem('token',result.data.data.newToken)
+                localStorage.setItem('refreshtoken',result.data.data.newTefreshToken)
+                this.getMenu()
+              }
+              else{
+                this.menus.push('all')
+                result.data.forEach(el => {
+                this.menus.push(el.namaMenu)
+                });
+              }
           })
         },
         getKue(){
@@ -114,13 +123,21 @@ export default {
             baseURL: localStorage.getItem("api_url")+"/admin/kue",
             timeout: 1500,
             headers: {'content-type': 'application/x-www-form-urlencoded',
+                      'refreshtoken':localStorage.getItem('refreshtoken'),
                       'token':localStorage.getItem('token')},
           }
           Axios(option)
           .then((result) => {
-            result.data.forEach(el => {
-              this.kues.push(el)
-            });
+              if(result.data.data){
+                localStorage.setItem('token',result.data.data.newToken)
+                localStorage.setItem('refreshtoken',result.data.data.newTefreshToken)
+                this.getKue()
+              }
+              else{
+                result.data.forEach(el => {
+                this.kues.push(el)
+                });
+              }
           })
         },
     },
